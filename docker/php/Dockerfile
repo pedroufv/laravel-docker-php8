@@ -33,9 +33,10 @@ RUN apk update && apk add --no-cache \
 RUN apk add --update npm
 
 # 3. install php extensions
-RUN docker-php-ext-configure exif
+RUN docker-php-ext-configure exif \
+    && pecl install redis
 RUN docker-php-ext-install exif pdo pdo_mysql
-RUN docker-php-ext-enable exif pdo_mysql
+RUN docker-php-ext-enable exif pdo_mysql redis
 
 # 4. composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
